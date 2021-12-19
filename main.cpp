@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     VolumeSlider w;
-    w.getMicrophones();
     w.show();
     return a.exec();
 }

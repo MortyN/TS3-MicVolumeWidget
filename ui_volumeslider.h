@@ -37,6 +37,7 @@ public:
         lcdNumber->setGeometry(QRect(200, 10, 64, 23));
 
         retranslateUi(VolumeSlider);
+        QObject::connect(horizontalSlider, SIGNAL(valueChanged(int)), lcdNumber, SLOT(display(int)));
 
         QMetaObject::connectSlotsByName(VolumeSlider);
     } // setupUi

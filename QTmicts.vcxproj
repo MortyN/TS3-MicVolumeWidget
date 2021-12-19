@@ -186,6 +186,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="audiodevicehelper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="volumeslider.cpp" />
   </ItemGroup>
@@ -214,6 +215,9 @@
   <ItemGroup>
     <QtUic Include="volumeslider.ui">
     </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="audiodevicehelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

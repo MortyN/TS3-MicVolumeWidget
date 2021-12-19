@@ -13,8 +13,10 @@ class VolumeSlider : public QWidget
 
 public:
     VolumeSlider(QWidget *parent = nullptr);
-    void getMicrophones();
     ~VolumeSlider();
+
+public slots:
+    void setMicVolume(int vol);
 
 private:
     Ui::VolumeSlider *ui;

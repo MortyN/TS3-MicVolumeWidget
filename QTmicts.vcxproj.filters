@@ -43,6 +43,9 @@
     <ClCompile Include="volumeslider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="audiodevicehelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="volumeslider.h">
@@ -56,13 +59,15 @@
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-    
-    
-    
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="volumeslider.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="audiodevicehelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,48 +1,22 @@
 ﻿#include "volumeslider.h"
 #include "ui_volumeslider.h"
-#include <Windows.h>
-#include <mmsystem.h>
-#include <mmeapi.h>
+#include "audiodevicehelper.h"
 
-#pragma comment(lib, "WinMM.lib")
 
 VolumeSlider::VolumeSlider(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::VolumeSlider)
 {
     ui->setupUi(this);
+    connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(setMicVolume(int)));
 }
 
-void showMixerCaps(int deviceNumber) {
-	MMRESULT r;
-
-	MIXERCAPS mixerCaps;
-	memset(&mixerCaps, 0, sizeof(mixerCaps));
-	r = mixerGetDevCaps(deviceNumber, &mixerCaps, sizeof(mixerCaps));
-	printf("device number　= %d:\n", deviceNumber);
-	printf("wMid           = %d\n", mixerCaps.wMid);
-	printf("wPid           = %d\n", mixerCaps.wPid);	
-	printf("vDriverVersion = %04xh\n", mixerCaps.vDriverVersion);	
-	printf("szPname        = [%s]\n", mixerCaps.szPname);	
-	printf("fdwSupport     = %d\n", mixerCaps.fdwSupport);	
-	printf("cDestinations  = %d\n", mixerCaps.cDestinations);	
-
-	OutputDebugString(mixerCaps.szPname);
-
-	printf("\n");
-}
-
-void VolumeSlider::getMicrophones()
+void VolumeSlider::setMicVolume(int vol)
 {
-    UINT numdevs = mixerGetNumDevs();
-
-    for (UINT i = 0; i < numdevs; i++)
-    {
-		showMixerCaps(i);
-    }
+    AudioDeviceHelper::ADH audiodevicehelper;
+    float volF = (float)vol / 100;
+    int volume = audiodevicehelper.setDefaultMicrophoneVolume(volF);
     
-
-    printf("%d", numdevs);
 }
 
 VolumeSlider::~VolumeSlider()
