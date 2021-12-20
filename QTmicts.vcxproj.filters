@@ -37,18 +37,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="volumeslider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="audiodevicehelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ts3plugin\plugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ts3plugin\shared.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ts3plugin\widgethelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="volumeslider.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ts3plugin\widgethelper.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -67,6 +76,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audiodevicehelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ts3plugin\plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ts3plugin\shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ts3plugin\singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
