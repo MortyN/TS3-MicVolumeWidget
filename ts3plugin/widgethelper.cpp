@@ -5,6 +5,8 @@
  */
 
 #include "widgethelper.h"
+#include <QtWidgets>
+#include "audiodevicehelper.h"
 
 /**
  * The WidgetHelper object constructor.
@@ -31,7 +33,6 @@ WidgetHelper::~WidgetHelper()
 unsigned int WidgetHelper::hook()
 {
     if(!m_mainWindow) return 1;
-
     if(!m_serverTabs)
     {
         if((m_serverTabs = getWidget<QTabWidget*>("ServerViewManager", m_mainWindow)))
@@ -82,7 +83,7 @@ unsigned int WidgetHelper::hook()
         QTimer::singleShot(200, this, SLOT(onPluginHookFailed()));
     }
 
-    if(m_serverTabs && m_serverArea && m_chatTabs && m_chatArea && m_splitter && m_serverStack && m_chatStack)
+    if(m_serverArea && m_chatTabs && m_chatArea && m_splitter && m_serverStack && m_chatStack)
     {
         m_hooked = true;
 
@@ -175,6 +176,16 @@ unsigned int WidgetHelper::restore()
 /**
  * Starts manipulating the client UI by adding dock widget areas and making the chat and info frame areas dockable.
  */
+
+void WidgetHelper::setMicVolume(int vol)
+{
+    printf("%d", vol);
+    AudioDeviceHelper::ADH audiodevicehelper;
+    float volF = (float)vol / 100;
+    int volume = audiodevicehelper.setDefaultMicrophoneVolume(volF);
+
+}
+
 unsigned int WidgetHelper::start()
 {
     if(m_docked) return 1;
@@ -192,11 +203,24 @@ unsigned int WidgetHelper::start()
     m_dockChat->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_dockChat->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     m_dockChat->setObjectName("chatAreaDock");
+    
+    QToolBar* parentToolbar = m_mainWindow->addToolBar(tr("toolbar"));
+
+    QSlider* slider = new QSlider(Qt::Horizontal, 0);
+    slider->resize(40, slider->height());
+
+    QLCDNumber* qlcd = new QLCDNumber();
+
+    connect(slider, SIGNAL(valueChanged(int)), this, SLOT(setMicVolume(int)));
+    connect(slider, SIGNAL(valueChanged(int)), qlcd, SLOT(display(int)));
+
+    parentToolbar->addWidget(slider);
+    parentToolbar->addWidget(qlcd);
 
     m_mainWindow->setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
     m_mainWindow->addDockWidget(Qt::RightDockWidgetArea, m_dockInfo);
     m_mainWindow->addDockWidget(Qt::BottomDockWidgetArea, m_dockChat);
-
+    
     if(QWidget* serverView = m_serverTabs->currentWidget())
     {
         if(QWidget* infoFrame = serverView->findChild<QWidget*>())

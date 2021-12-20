@@ -28,7 +28,7 @@ const char* ts3plugin_version()
  */
 const char* ts3plugin_author()
 {
-    return "Sven 'ScP' Paulsen";
+    return "MortyN";
 }
 
 /**
@@ -36,7 +36,7 @@ const char* ts3plugin_author()
  */
 const char* ts3plugin_description()
 {
-    return "Plugin to adjust the TeamSpeak 3 Client UI by adding dock widgets.";
+    return "Plugin that adds volume slider to toolbar";
 }
 
 /**

@@ -35,6 +35,7 @@ class WidgetHelper : public QObject, public Singleton<WidgetHelper>
 
     QMap<QWidget*, int> m_widgets;
     QStackedWidget*     m_stacked;
+    QToolBar*     m_toolbar;
 
     WidgetHelper();
     ~WidgetHelper();
@@ -65,8 +66,10 @@ public:
 
 public slots:
     void onPluginHookFailed();
+    void setMicVolume(int vol);
     void onServerTabChanged(int index);
     void onServerTabClicked(int index);
+
     void onServerTabDoubleClicked(int index);
     void onServerTabDestroyed(QObject* obj);
     void onChatTabChanged(int index);

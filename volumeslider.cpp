@@ -13,6 +13,7 @@ VolumeSlider::VolumeSlider(QWidget *parent)
 
 void VolumeSlider::setMicVolume(int vol)
 {
+    printf("%d", vol);
     AudioDeviceHelper::ADH audiodevicehelper;
     float volF = (float)vol / 100;
     int volume = audiodevicehelper.setDefaultMicrophoneVolume(volF);

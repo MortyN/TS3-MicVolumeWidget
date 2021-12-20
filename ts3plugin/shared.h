@@ -21,7 +21,7 @@
 #include "teamspeak/public_rare_definitions.h"
 #include "ts3_functions.h"
 
-#define PLUGIN_NAME "Dock Widgets"
+#define PLUGIN_NAME "Mic Volume Widget"
 #define PLUGIN_VER  "1.0"
 #define PLUGIN_API  23
 #define BUFFSIZE_L  512
