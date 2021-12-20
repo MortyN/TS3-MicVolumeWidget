@@ -27,6 +27,31 @@ WidgetHelper::WidgetHelper() : Singleton<WidgetHelper>()
 WidgetHelper::~WidgetHelper()
 {}
 
+unsigned int WidgetHelper::betterhook() {
+    if (!m_mainWindow) return 1;
+
+    int curMasterVol;
+    AudioDeviceHelper::ADH adh;
+
+    QToolBar* parentToolbar = m_mainWindow->addToolBar(tr("toolbar"));
+
+    QSlider* slider = new QSlider(Qt::Horizontal, 0);
+    slider->resize(40, slider->height());
+
+    QLCDNumber* qlcd = new QLCDNumber();
+
+    connect(slider, SIGNAL(valueChanged(int)), this, SLOT(setMicVolume(int)));
+    connect(slider, SIGNAL(valueChanged(int)), qlcd, SLOT(display(int)));
+
+    curMasterVol = adh.getCurrentDefaultMicVolume();
+    slider->setValue(curMasterVol);
+
+    parentToolbar->addWidget(slider);
+    parentToolbar->addWidget(qlcd);
+
+    return 0;
+}
+
 /**
  * Hooks into the client UI and tries to find key widgets to interact with.
  */

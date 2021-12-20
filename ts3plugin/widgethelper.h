@@ -63,6 +63,7 @@ public:
     unsigned int stop();
     unsigned int backup();
     unsigned int restore();
+    unsigned int betterhook();
 
 public slots:
     void onPluginHookFailed();
