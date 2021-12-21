@@ -193,11 +193,6 @@
     <ClCompile Include="ts3plugin\plugin.cpp" />
     <ClCompile Include="ts3plugin\shared.cpp" />
     <ClCompile Include="ts3plugin\widgethelper.cpp" />
-    <ClCompile Include="volumeslider.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="volumeslider.h">
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">

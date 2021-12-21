@@ -52,7 +52,7 @@ int ts3plugin_apiVersion()
  */
 int ts3plugin_init()
 {
-    if(WidgetHelper::instance()->betterhook())
+    if(WidgetHelper::instance()->hook())
     {
         pluginSDK.logMessage("Failed to initialize plugin; no QMainWindow available", LogLevel_ERROR, PLUGIN_NAME, 0);
 

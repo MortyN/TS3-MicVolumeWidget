@@ -8,6 +8,9 @@
 #include <QtWidgets>
 #include "audiodevicehelper.h"
 
+QSlider* slider;
+QLCDNumber* qlcd;
+
 /**
  * The WidgetHelper object constructor.
  */
@@ -27,18 +30,22 @@ WidgetHelper::WidgetHelper() : Singleton<WidgetHelper>()
 WidgetHelper::~WidgetHelper()
 {}
 
+///**
+// * Starts manipulating the client UI by adding dock widget areas and making the chat and info frame areas dockable.
+// */
 unsigned int WidgetHelper::betterhook() {
     if (!m_mainWindow) return 1;
-
+    
     int curMasterVol;
     AudioDeviceHelper::ADH adh;
+   
 
     QToolBar* parentToolbar = m_mainWindow->addToolBar(tr("toolbar"));
-
-    QSlider* slider = new QSlider(Qt::Horizontal, 0);
-    slider->resize(40, slider->height());
-
-    QLCDNumber* qlcd = new QLCDNumber();
+    
+    slider = new QSlider(Qt::Horizontal, 0);
+    slider->setMaximumWidth(200);
+    
+    qlcd = new QLCDNumber();
 
     connect(slider, SIGNAL(valueChanged(int)), this, SLOT(setMicVolume(int)));
     connect(slider, SIGNAL(valueChanged(int)), qlcd, SLOT(display(int)));
@@ -49,73 +56,12 @@ unsigned int WidgetHelper::betterhook() {
     parentToolbar->addWidget(slider);
     parentToolbar->addWidget(qlcd);
 
+    m_hooked = true;
     return 0;
 }
 
-/**
- * Hooks into the client UI and tries to find key widgets to interact with.
- */
-unsigned int WidgetHelper::hook()
-{
-    if(!m_mainWindow) return 1;
-    if(!m_serverTabs)
-    {
-        if((m_serverTabs = getWidget<QTabWidget*>("ServerViewManager", m_mainWindow)))
-        {
-            connect(m_serverTabs, &QTabWidget::currentChanged, this, &WidgetHelper::onServerTabChanged);
-            connect(m_serverTabs, &QTabWidget::tabBarClicked, this, &WidgetHelper::onServerTabClicked);
-            connect(m_serverTabs, &QTabWidget::tabBarDoubleClicked, this, &WidgetHelper::onServerTabDoubleClicked);
-        }
-    }
-
-    if(!m_serverArea)
-    {
-        m_serverArea = getWidget<QWidget*>("MainWindowServerTabsWidget", m_mainWindow);
-    }
-
-    if(!m_serverStack)
-    {
-        if(m_serverArea) m_serverStack = m_serverArea->findChild<QStackedWidget*>();
-    }
-
-    if(!m_chatTabs)
-    {
-        if((m_chatTabs = getWidget<QTabWidget*>("ChatTabWidget", m_mainWindow)))
-        {
-            connect(m_chatTabs, &QTabWidget::currentChanged, this, &WidgetHelper::onChatTabChanged);
-            connect(m_chatTabs, &QTabWidget::tabBarClicked, this, &WidgetHelper::onChatTabClicked);
-            connect(m_chatTabs, &QTabWidget::tabBarDoubleClicked, this, &WidgetHelper::onChatTabDoubleClicked);
-        }
-    }
-
-    if(!m_chatArea)
-    {
-        m_chatArea = getWidget<QWidget*>("MainWindowChatWidget", m_mainWindow);
-    }
-
-    if(!m_chatStack)
-    {
-        if(m_chatArea) m_chatStack = m_chatArea->findChild<QStackedWidget*>();
-    }
-
-    if(!m_splitter)
-    {
-        m_splitter = m_mainWindow->findChild<QSplitter*>();
-    }
-
-    if(!m_hooked && m_hooks++ < 25)
-    {
-        QTimer::singleShot(200, this, SLOT(onPluginHookFailed()));
-    }
-
-    if(m_serverArea && m_chatTabs && m_chatArea && m_splitter && m_serverStack && m_chatStack)
-    {
-        m_hooked = true;
-
-        start();
-        restore();
-    }
-
+unsigned int WidgetHelper::hook() {
+    QTimer::singleShot(200, this, &WidgetHelper::betterhook);
     return 0;
 }
 
@@ -126,11 +72,13 @@ unsigned int WidgetHelper::unhook()
 {
     if(!m_hooked) return 1;
 
-    backup();
-    stop();
+    //backup();
 
     m_hooked = false;
+    printf("%s", "deleting");
 
+    delete slider;
+    delete qlcd;
     delete m_stacked;
     delete m_dockInfo;
     delete m_dockChat;
@@ -198,100 +146,11 @@ unsigned int WidgetHelper::restore()
     return conf.status();
 }
 
-/**
- * Starts manipulating the client UI by adding dock widget areas and making the chat and info frame areas dockable.
- */
-
 void WidgetHelper::setMicVolume(int vol)
 {
-    printf("%d", vol);
     AudioDeviceHelper::ADH audiodevicehelper;
     float volF = (float)vol / 100;
     int volume = audiodevicehelper.setDefaultMicrophoneVolume(volF);
-
-}
-
-unsigned int WidgetHelper::start()
-{
-    if(m_docked) return 1;
-
-    m_dockInfo = new QDockWidget(qApp->translate("MainWindow", "Information"));
-    m_dockChat = new QDockWidget(qApp->translate("ChatSetupDialog", "Chat"));
-    m_stacked  = new QStackedWidget(m_dockInfo);
-
-    m_dockInfo->setWidget(m_stacked);
-    m_dockInfo->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_dockInfo->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-    m_dockInfo->setObjectName("infoFrameDock");
-
-    m_dockChat->setWidget(m_chatArea);
-    m_dockChat->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_dockChat->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-    m_dockChat->setObjectName("chatAreaDock");
-    
-    QToolBar* parentToolbar = m_mainWindow->addToolBar(tr("toolbar"));
-
-    QSlider* slider = new QSlider(Qt::Horizontal, 0);
-    slider->resize(40, slider->height());
-
-    QLCDNumber* qlcd = new QLCDNumber();
-
-    connect(slider, SIGNAL(valueChanged(int)), this, SLOT(setMicVolume(int)));
-    connect(slider, SIGNAL(valueChanged(int)), qlcd, SLOT(display(int)));
-
-    parentToolbar->addWidget(slider);
-    parentToolbar->addWidget(qlcd);
-
-    m_mainWindow->setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
-    m_mainWindow->addDockWidget(Qt::RightDockWidgetArea, m_dockInfo);
-    m_mainWindow->addDockWidget(Qt::BottomDockWidgetArea, m_dockChat);
-    
-    if(QWidget* serverView = m_serverTabs->currentWidget())
-    {
-        if(QWidget* infoFrame = serverView->findChild<QWidget*>())
-        {
-            m_widgets.insert(serverView, m_stacked->addWidget(infoFrame));
-            m_stacked->setCurrentWidget(infoFrame);
-
-            connect(serverView, &QObject::destroyed, this, &WidgetHelper::onServerTabDestroyed);
-        }
-    }
-
-    m_docked = true;
-
-    return 0;
-}
-
-/**
- * Stops manipulating the client UI and restores the original state of all widgets.
- */
-unsigned int WidgetHelper::stop()
-{
-    if(!m_docked) return 1;
-
-    m_mainWindow->removeDockWidget(m_dockInfo);
-    m_mainWindow->removeDockWidget(m_dockChat);
-
-    m_serverTabs->setTabPosition(QTabWidget::North);
-
-    m_splitter->addWidget(m_chatArea);
-
-    for(QMap<QWidget*, int>::const_iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
-    {
-        QWidget* infoFrame = m_stacked->widget(i.value());
-
-        m_stacked->removeWidget(infoFrame);
-
-        if(m_mainWindow->isVisible())
-        {
-            infoFrame->setParent(i.key());
-            infoFrame->show();
-        }
-    }
-
-    m_docked = false;
-
-    return 0;
 }
 
 /**
@@ -302,106 +161,3 @@ void WidgetHelper::onPluginHookFailed()
     hook();
 }
 
-/**
- * Called when the active server tab has been changed.
- */
-void WidgetHelper::onServerTabChanged(int index)
-{
-    if(!m_docked || !m_hooked) return;
-
-    if(QWidget* serverView = m_serverTabs->widget(index))
-    {
-        if(m_widgets.contains(serverView))
-        {
-            m_stacked->setCurrentWidget(m_stacked->widget(m_widgets[serverView]));
-        }
-        else
-        {
-            if(QWidget* infoFrame = serverView->findChild<QWidget*>())
-            {
-                m_widgets.insert(serverView, m_stacked->addWidget(infoFrame));
-                m_stacked->setCurrentWidget(infoFrame);
-
-                connect(serverView, &QObject::destroyed, this, &WidgetHelper::onServerTabDestroyed);
-            }
-        }
-    }
-}
-
-/**
- * Called when a server tab is clicked.
- */
-void WidgetHelper::onServerTabClicked(int index)
-{
-    if(!m_docked || !m_hooked) return;
-
-    // not implemented
-
-    Q_UNUSED(index)
-}
-
-/**
- * Called when a server tab is double-clicked.
- */
-void WidgetHelper::onServerTabDoubleClicked(int index)
-{
-    if(!m_docked || !m_hooked) return;
-
-    // not implemented
-
-    Q_UNUSED(index)
-}
-
-/**
- * Called when a server tab has been closed.
- */
-void WidgetHelper::onServerTabDestroyed(QObject* obj)
-{
-    if(!m_docked || !m_hooked) return;
-
-    if(m_widgets.contains((QWidget*) obj))
-    {
-        QWidget* infoFrame = m_stacked->widget(m_widgets[(QWidget*) obj]);
-
-        m_widgets.remove((QWidget*) obj);
-        m_stacked->removeWidget(infoFrame);
-
-        delete infoFrame;
-    }
-}
-
-/**
- * Called when the active chat tab has been changed.
- */
-void WidgetHelper::onChatTabChanged(int index)
-{
-    if(!m_docked || !m_hooked) return;
-
-    // not implemented
-
-    Q_UNUSED(index)
-}
-
-/**
- * Called when a chat tab is clicked.
- */
-void WidgetHelper::onChatTabClicked(int index)
-{
-    if(!m_docked || !m_hooked) return;
-
-    // not implemented
-
-    Q_UNUSED(index)
-}
-
-/**
- * Called when a chat tab is double-clicked.
- */
-void WidgetHelper::onChatTabDoubleClicked(int index)
-{
-    if(!m_docked || !m_hooked) return;
-
-    // not implemented
-
-    Q_UNUSED(index)
-}

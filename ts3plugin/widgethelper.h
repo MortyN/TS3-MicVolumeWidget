@@ -59,8 +59,6 @@ class WidgetHelper : public QObject, public Singleton<WidgetHelper>
 public:
     unsigned int hook();
     unsigned int unhook();
-    unsigned int start();
-    unsigned int stop();
     unsigned int backup();
     unsigned int restore();
     unsigned int betterhook();
@@ -68,14 +66,6 @@ public:
 public slots:
     void onPluginHookFailed();
     void setMicVolume(int vol);
-    void onServerTabChanged(int index);
-    void onServerTabClicked(int index);
-
-    void onServerTabDoubleClicked(int index);
-    void onServerTabDestroyed(QObject* obj);
-    void onChatTabChanged(int index);
-    void onChatTabClicked(int index);
-    void onChatTabDoubleClicked(int index);
 };
 
 #endif // WIDGETHELPER_H

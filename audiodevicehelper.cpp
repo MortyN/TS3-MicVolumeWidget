@@ -8,13 +8,6 @@
 
 using namespace AudioDeviceHelper;
 
-//IAudioEndpointVolume getEndpoint(__MIDL___MIDL_itf_mmdeviceapi_0000_0000_0001 micorspeaker) {
-//
-//
-//
-//    return
-//}
-
 int ADH::setDefaultMicrophoneVolume(float nVolume)
 {
     HRESULT hr = NULL;
