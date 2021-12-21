@@ -189,10 +189,10 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="audiodevicehelper.cpp" />
-    <ClCompile Include="ts3plugin\plugin.cpp" />
-    <ClCompile Include="ts3plugin\shared.cpp" />
-    <ClCompile Include="ts3plugin\widgethelper.cpp" />
+    <ClCompile Include="src\audiodevicehelper.cpp" />
+    <ClCompile Include="src\plugin.cpp" />
+    <ClCompile Include="src\shared.cpp" />
+    <ClCompile Include="src\widgethelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -213,16 +213,12 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="volumeslider.ui">
-    </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="audiodevicehelper.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="ts3plugin\plugin.h" />
-    <ClInclude Include="ts3plugin\shared.h" />
-    <ClInclude Include="ts3plugin\singleton.h" />
-    <QtMoc Include="ts3plugin\widgethelper.h" />
+    <ClInclude Include="src\audiodevicehelper.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\plugin.h" />
+    <ClInclude Include="src\shared.h" />
+    <ClInclude Include="src\singleton.h" />
+    <QtMoc Include="src\widgethelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

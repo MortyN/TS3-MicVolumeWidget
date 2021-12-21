@@ -37,23 +37,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="audiodevicehelper.cpp">
+    <ClCompile Include="src\audiodevicehelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ts3plugin\plugin.cpp">
+    <ClCompile Include="src\plugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ts3plugin\shared.cpp">
+    <ClCompile Include="src\shared.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ts3plugin\widgethelper.cpp">
+    <ClCompile Include="src\widgethelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="ts3plugin\widgethelper.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -64,25 +59,25 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="volumeslider.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
+    <ClInclude Include="src\audiodevicehelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="audiodevicehelper.h">
+    <QtMoc Include="src\widgethelper.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ts3plugin\plugin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ts3plugin\shared.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ts3plugin\singleton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    </QtMoc>
   </ItemGroup>
 </Project>
