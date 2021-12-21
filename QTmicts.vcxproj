@@ -32,10 +32,11 @@
     <PlatformToolset>v142</PlatformToolset>
     <OutputDirectory>debug\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
-    <CharacterSet>NotSet</CharacterSet>
-    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <IntermediateDirectory>debug\</IntermediateDirectory>
     <PrimaryOutput>QTmicts</PrimaryOutput>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -57,6 +58,7 @@
     <IntDir>debug\</IntDir>
     <TargetName>QTmicts</TargetName>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>release\</OutDir>
@@ -68,6 +70,7 @@
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtInstall>msvc2017_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QtInstall>msvc2017_64</QtInstall>
@@ -134,7 +137,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;debug;C:\VulkanSDK\1.0.51.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;debug;C:\VulkanSDK\1.0.51.0\include;C:\Users\morte\Documents\cppdependencies\teamspeak\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -153,12 +156,12 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.19041.0\um\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.19041.0\um\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
-      <OutputFile>$(OutDir)\QTmicts.exe</OutputFile>
+      <OutputFile>$(OutDir)\QTmicts.dll</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -173,7 +176,7 @@
     </ResourceCompile>
     <QtMoc>
       <CompilerFlavor>msvc</CompilerFlavor>
-      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <Include>./$(Configuration)/moc_predefs.h;%(PrependInclude)</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <DynamicSource>output</DynamicSource>
       <QtMocDir>$(Configuration)</QtMocDir>
@@ -187,12 +190,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="audiodevicehelper.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="volumeslider.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="volumeslider.h">
-    </QtMoc>
+    <ClCompile Include="ts3plugin\plugin.cpp" />
+    <ClCompile Include="ts3plugin\shared.cpp" />
+    <ClCompile Include="ts3plugin\widgethelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -218,6 +218,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audiodevicehelper.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ts3plugin\plugin.h" />
+    <ClInclude Include="ts3plugin\shared.h" />
+    <ClInclude Include="ts3plugin\singleton.h" />
+    <QtMoc Include="ts3plugin\widgethelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
