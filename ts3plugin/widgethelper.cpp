@@ -15,7 +15,7 @@ QLCDNumber* qlcd;
  * The WidgetHelper object constructor.
  */
 WidgetHelper::WidgetHelper() : Singleton<WidgetHelper>()
-{
+{ 
     QWidgetList widgets = qApp->allWidgets();
 
     for(QWidgetList::iterator i = widgets.begin(); i != widgets.end(); ++i)
