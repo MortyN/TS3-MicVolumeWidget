@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/Makefile.Release
+/Makefile.Debug
+/Makefile
