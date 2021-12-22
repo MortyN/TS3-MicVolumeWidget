@@ -16,8 +16,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Windows-SDK
         uses: fbactions/setup-winsdk@v1
-          with:
-            winsdk-build-version: 19041
+        with:
+          winsdk-build-version: 19041
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
