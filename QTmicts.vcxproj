@@ -58,7 +58,7 @@
     <IntDir>debug\</IntDir>
     <TargetName>QTmicts</TargetName>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>release\</OutDir>
