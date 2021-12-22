@@ -1,0 +1,37 @@
+name: MicVolumeWidget Build & Release
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v.1.0.*'
+
+jobs:
+  dll:
+    name: Build plugin DLL
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Windows-SDK
+        uses: fbactions/setup-winsdk@v1
+          with:
+            winsdk-build-version: 19041
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: '5.12.3'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+          dir: '${{ github.workspace }}/QT/'
+      - name: Build MakeFile
+        run: qmake
+      - name: Build DLL with MakeFile.Release
+        run: nmake -f MakeFile.Release
+      
+    
+
+
+
