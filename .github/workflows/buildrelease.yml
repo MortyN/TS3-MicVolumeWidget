@@ -26,6 +26,7 @@ jobs:
           target: 'desktop'
           arch: 'win64_msvc2019_64'
           dir: '${{ github.workspace }}/QT/'
+          setup-python: 'false'
       - name: Build MakeFile
         run: qmake
       - name: Build DLL with MakeFile.Release
