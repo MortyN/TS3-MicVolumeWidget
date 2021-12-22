@@ -25,8 +25,8 @@ jobs:
           version: '5.12.3'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_msvc2019_64'
-          dir: '${{ github.workspace }}/QT/'
+          arch: 'msvc2019_64'
+          dir: '${{ github.workspace }}/QT'
       - name: Build MakeFile
         run: qmake
       - name: Build DLL with MakeFile.Release
