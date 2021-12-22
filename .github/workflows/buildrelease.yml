@@ -21,7 +21,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          setup-python: 'false'
+          setup-python: 'true'
           version: '5.12.3'
           host: 'windows'
           target: 'desktop'
