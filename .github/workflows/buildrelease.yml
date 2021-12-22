@@ -21,12 +21,12 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
+          setup-python: 'false'
           version: '5.12.3'
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2019_64'
           dir: '${{ github.workspace }}/QT/'
-          setup-python: 'false'
       - name: Build MakeFile
         run: qmake
       - name: Build DLL with MakeFile.Release
