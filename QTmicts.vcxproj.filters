@@ -80,4 +80,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\ui\DialogButtonRight.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="res\Resource.qrc" />
+  </ItemGroup>
 </Project>

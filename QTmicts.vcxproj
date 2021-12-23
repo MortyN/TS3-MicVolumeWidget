@@ -220,6 +220,12 @@
     <ClInclude Include="src\singleton.h" />
     <QtMoc Include="src\widgethelper.h" />
   </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\ui\DialogButtonRight.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="res\Resource.qrc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

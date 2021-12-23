@@ -7,10 +7,12 @@
 #include "widgethelper.h"
 #include <QtWidgets>
 #include "audiodevicehelper.h"
+#include "ui_DialogButtonRight.h"
 
 QSlider* slider;
 QLCDNumber* qlcd;
 QCheckBox* cBox;
+QToolButton* configbtn;
 
 /**
  * The WidgetHelper object constructor.
@@ -54,13 +56,24 @@ unsigned int WidgetHelper::betterhook() {
     curMasterVol = adh.getCurrentDefaultMicVolume();
     slider->setValue(curMasterVol);
 
-    cBox = new QCheckBox();
-    cBox->setText("lock volume:");
-    cBox->setLayoutDirection(Qt::LayoutDirection::RightToLeft);
+    configbtn = new QToolButton();
+    configbtn->setIcon(QIcon(":/res/ico/settings.png"));
+    
+    QAction* cbtn = new QAction(QIcon(":/res/ico/settings.png"), "mic vol settings");
+    connect(cbtn, &QAction::triggered, this, []() { 
+        QDialog widget;
+        Ui::ConfigDialog ui;
+        ui.setupUi(&widget);
+        widget.setModal(true);
+        widget.exec();
+        });
 
+    parentToolbar->addAction(cbtn);
     parentToolbar->addWidget(slider);
     parentToolbar->addWidget(qlcd);
     parentToolbar->addWidget(cBox);
+
+    
 
     m_hooked = true;
     restore();
