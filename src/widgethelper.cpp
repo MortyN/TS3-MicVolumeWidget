@@ -10,6 +10,7 @@
 
 QSlider* slider;
 QLCDNumber* qlcd;
+QCheckBox* cBox;
 
 /**
  * The WidgetHelper object constructor.
@@ -35,7 +36,7 @@ WidgetHelper::~WidgetHelper()
 // */
 unsigned int WidgetHelper::betterhook() {
     if (!m_mainWindow) return 1;
-    
+
     int curMasterVol;
     AudioDeviceHelper::ADH adh;
    
@@ -53,15 +54,21 @@ unsigned int WidgetHelper::betterhook() {
     curMasterVol = adh.getCurrentDefaultMicVolume();
     slider->setValue(curMasterVol);
 
+    cBox = new QCheckBox();
+    cBox->setText("lock volume:");
+    cBox->setLayoutDirection(Qt::LayoutDirection::RightToLeft);
+
     parentToolbar->addWidget(slider);
     parentToolbar->addWidget(qlcd);
+    parentToolbar->addWidget(cBox);
 
     m_hooked = true;
+    restore();
     return 0;
 }
 
 unsigned int WidgetHelper::hook() {
-    QTimer::singleShot(200, this, &WidgetHelper::betterhook);
+    QTimer::singleShot(10, this, &WidgetHelper::betterhook);
     return 0;
 }
 
@@ -72,7 +79,7 @@ unsigned int WidgetHelper::unhook()
 {
     if(!m_hooked) return 1;
 
-    //backup();
+    backup();
 
     m_hooked = false;
     printf("%s", "deleting");
@@ -97,16 +104,11 @@ unsigned int WidgetHelper::backup()
 
     pluginSDK.getConfigPath(path, BUFFSIZE_S);
 
-    QSettings conf(QString(path) + "plugin_dockwidget.ini", QSettings::IniFormat);
+    QSettings conf(QString(path) + "plugin_micvolchanger.ini", QSettings::IniFormat);
 
     pluginSDK.logMessage(QString("Writing plugin settings: %0").arg(conf.fileName()).toUtf8().data(), LogLevel_INFO, PLUGIN_NAME, 0);
 
-    conf.setValue("mainGeometry", m_mainWindow->saveGeometry());
-    conf.setValue("mainWinState", m_mainWindow->saveState());
-    conf.setValue("chatFloating", m_dockChat->isFloating());
-    conf.setValue("chatGeometry", m_dockChat->saveGeometry());
-    conf.setValue("infoFloating", m_dockInfo->isFloating());
-    conf.setValue("infoGeometry", m_dockInfo->saveGeometry());
+    conf.setValue("lockVolSetting", cBox->isChecked());
 
     m_loaded = false;
 
@@ -124,21 +126,14 @@ unsigned int WidgetHelper::restore()
 
     pluginSDK.getConfigPath(path, BUFFSIZE_S);
 
-    QSettings conf(QString(path) + "plugin_dockwidget.ini", QSettings::IniFormat);
+    QSettings conf(QString(path) + "plugin_micvolchanger.ini", QSettings::IniFormat);
 
     if(conf.childKeys().size())
     {
         pluginSDK.logMessage(QString("Reading plugin settings: %0").arg(conf.fileName()).toUtf8().data(), LogLevel_INFO, PLUGIN_NAME, 0);
 
-        m_mainWindow->restoreGeometry(conf.value("mainGeometry", m_mainWindow->saveGeometry()).toByteArray());
-        m_mainWindow->restoreState(conf.value("mainWinState", m_mainWindow->saveState()).toByteArray());
-        m_dockChat->setFloating(conf.value("chatFloating", m_dockChat->isFloating()).toBool());
-        m_dockChat->restoreGeometry(conf.value("chatGeometry", m_dockChat->saveGeometry()).toByteArray());
-        m_dockInfo->setFloating(conf.value("infoFloating", m_dockInfo->isFloating()).toBool());
-        m_dockInfo->restoreGeometry(conf.value("infoGeometry", m_dockInfo->saveGeometry()).toByteArray());
+        cBox->setChecked(conf.value("lockVolSetting", cBox->isChecked()).toBool());
 
-        m_dockChat->show();
-        m_dockInfo->show();
     }
 
     m_loaded = true;
