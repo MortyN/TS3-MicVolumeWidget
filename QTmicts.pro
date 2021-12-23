@@ -9,7 +9,7 @@ TARGET = QTmicts
 DESTDIR = ./debug
 CONFIG += debug console
 DEFINES += _WINDOWS _UNICODE _ENABLE_EXTENDED_ALIGNED_STORAGE WIN64
-INCLUDEPATH += "C:\Users\morte\Documents\cppdependencies\teamspeak\include"
+INCLUDEPATH += "./include"
 LIBS += -L"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\um\x64" -lwinmm \
 -L"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\um\x64" -lole32
 DEPENDPATH += .
