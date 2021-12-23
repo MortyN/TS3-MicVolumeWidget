@@ -36,7 +36,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           body: |
             Initial release of the MicVolumeWidget!
-      - name: Upload Release APK
+      - name: Upload Release TS3 Plugin DLL
         id: upload_release_asset
         uses: actions/upload-release-asset@v1.0.1
         env:
@@ -46,9 +46,3 @@ jobs:
           asset_path: release/QTmicts.dll
           asset_name: MicVolPluginTs3.dll
           asset_content_type: application/zip
-
-      
-    
-
-
-
