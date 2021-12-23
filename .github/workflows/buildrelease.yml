@@ -24,8 +24,8 @@ jobs:
           version: '5.12.3'
       - name: Build MakeFile
         run: qmake
-      - uses: ilammy/msvc-dev-cmd@v1
       - name: Setting up nmake
+        uses: ilammy/msvc-dev-cmd@v1
       - name: Build DLL with MakeFile.Release
         run: nmake -f MakeFile.Release
 
