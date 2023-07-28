@@ -23,7 +23,7 @@
 
 #define PLUGIN_NAME "Mic Volume Widget"
 #define PLUGIN_VER  "1.0"
-#define PLUGIN_API  23
+#define PLUGIN_API  26
 #define BUFFSIZE_L  512
 #define BUFFSIZE_M  256
 #define BUFFSIZE_D  128
