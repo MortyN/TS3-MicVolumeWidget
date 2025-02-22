@@ -1,6 +1,7 @@
 name: MicVolumeWidget Build & Release
 
 on:
+  workflow_dispatch: {}
   push:
     tags:
       - '*'
