@@ -17,7 +17,7 @@ jobs:
         with:
           winsdk-build-version: 19041
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
           version: '5.12.3'
       - name: Build MakeFile
