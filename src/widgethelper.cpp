@@ -79,9 +79,6 @@ unsigned int WidgetHelper::unhook()
 
     delete slider;
     delete qlcd;
-    delete m_stacked;
-    delete m_dockInfo;
-    delete m_dockChat;
 
     return 0;
 }

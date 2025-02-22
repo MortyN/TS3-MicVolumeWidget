@@ -34,7 +34,6 @@ class WidgetHelper : public QObject, public Singleton<WidgetHelper>
     QDockWidget* m_dockChat;
 
     QMap<QWidget*, int> m_widgets;
-    QStackedWidget*     m_stacked;
     QToolBar*     m_toolbar;
 
     WidgetHelper();
